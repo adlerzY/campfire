@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>اداکس‌لند | Adlerz Zone</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="script.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+    html, body {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M4.5 3V18.5L9.2 14.3L12.5 21L15.5 19.5L12.2 13H18.5L4.5 3Z" fill="%2305060b" stroke="%23ffbe1a" stroke-width="2" stroke-linejoin="round"/></svg>'), default !important;
+    }
+
+    a, button, [role="button"], [data-choice], img[alt="Sitting Knight"], #fire-container, .clickable {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="none"><path d="M9 10V4C9 3.44772 9.44772 3 10 3C10.5523 3 11 3.44772 11 4V10M11 10V6C11 5.44772 11.4477 5 12 5C12.5523 5 13 5.44772 13 6V10M13 10V7C13 6.44772 13.4477 6 14 6C14.5523 6 15 6.44772 15 7V10M15 10V9C15 8.44772 15.4477 8 16 8C16.5523 8 17 8.44772 17 9V13C17 15.2091 15.2091 17 13 17H11C8.79086 17 7 15.2091 7 13V10C7 9.44772 7.44772 9 8 9C8.55228 9 9 9.44772 9 10Z" stroke="%23ffbe1a" stroke-width="2" stroke-linejoin="round" fill="%2305060b"/></svg>'), pointer !important;
+    }
+
+    .pixel-font {
+      font-family: 'Press Start 2P', monospace;
+    }
+    .pixelated {
+      image-rendering: pixelated;
+    }
+
+    @keyframes starTwinkle {
+      0%, 100% { opacity: 0.2; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+    .pixel-star {
+      animation: starTwinkle 2.3s infinite ease-in-out;
+    }
+
+    .flip-knight {
+      transform: scaleX(-1);
+    }
+
+    .typing::after {
+      content: ' █';
+      color: #ffbe1a;
+      animation: cursorBlink 0.8s step-start infinite;
+    }
+    .typing-red::after {
+      content: ' █';
+      color: #ff8080;
+      animation: cursorBlink 0.8s step-start infinite;
+    }
+    @keyframes cursorBlink {
+      50% { opacity: 0; }
+    }
+
+    .fade-in-pixel {
+      animation: pixelFadeIn 0.4s steps(4, end) forwards;
+    }
+    @keyframes pixelFadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes popFloatUp {
+      0% { transform: translate(-50%, 15px) scale(0.8); opacity: 0; }
+      15% { transform: translate(-50%, 0) scale(1); opacity: 1; }
+      80% { transform: translate(-50%, -10px) scale(1); opacity: 1; }
+      100% { transform: translate(-50%, -30px) scale(0.8); opacity: 0; }
+    }
+
+    .pixel-pop-bubble {
+      animation: popFloatUp 2.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      image-rendering: pixelated;
+    }
+
+    @keyframes pixel-shake {
+      0% { transform: scaleX(-1) translate(0, 0); }
+      20% { transform: scaleX(-1) translate(-4px, 2px); }
+      40% { transform: scaleX(-1) translate(4px, -2px); }
+      60% { transform: scaleX(-1) translate(-3px, -1px); }
+      80% { transform: scaleX(-1) translate(3px, 3px); }
+      100% { transform: scaleX(-1) translate(0, 0); }
+    }
+
+    .hit-shake {
+      animation: pixel-shake 0.25s steps(2, end) !important;
+    }
+
+    @keyframes floatEmber {
+      0% {
+        transform: translateY(0) translateX(0) scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(-35px) translateX(var(--ember-drift)) scale(1.2);
+        opacity: 0.9;
+      }
+      100% {
+        transform: translateY(-90px) translateX(calc(var(--ember-drift) * 2)) scale(0.4);
+        opacity: 0;
+      }
+    }
+    .pixel-ember {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background-color: #ff8030;
+      box-shadow: 0 0 2px #ffbe1a;
+      bottom: 24px;
+      animation: floatEmber var(--ember-dur) linear infinite;
+    @media (max-width: 1279px) {
+      #mobile-box {
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        transform: none !important;
+        width: 90%;
+        max-width: 400px;
+      }
+      
+      .knight-container-mobile {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin: 0 auto;
+      }
+    }
+    }
+  </style>
+</head>
+<body class="bg-[#05060b] text-[#e0e0e6] h-[100dvh] md:h-screen flex flex-col justify-between p-4 md:p-6 relative overflow-hidden select-none">
+
+  <audio id="bg-audio" loop src="campfire_music.mp3"></audio>
+
+  <div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
+    <div class="absolute inset-0 bg-cover bg-center pixelated opacity-80" style="background-image: url('dark-fantasy-ruins-night-landscape-vector-pixel-art-illustration_148553-1750.avif');"></div>
+    
+    <div class="absolute w-1.5 h-1.5 bg-white pixel-star top-[12%] left-[15%]" style="animation-delay: 0.2s;"></div>
+    <div class="absolute w-2 h-2 bg-white pixel-star top-[25%] left-[45%]" style="animation-delay: 0.8s;"></div>
+    <div class="absolute w-1 h-1 bg-[#ffbe1a] pixel-star top-[15%] right-[25%]" style="animation-delay: 1.2s;"></div>
+    <div class="absolute w-1.5 h-1.5 bg-white pixel-star top-[35%] right-[10%]" style="animation-delay: 0.5s;"></div>
+    <div class="absolute w-1.5 h-1.5 bg-white pixel-star top-[40%] left-[22%]" style="animation-delay: 0.1s;"></div>
+    <div class="absolute w-1.5 h-1.5 bg-white pixel-star top-[30%] left-[60%]" style="animation-delay: 1.4s;"></div>
+    <div class="absolute w-2 h-2 bg-white pixel-star top-[18%] right-[70%]" style="animation-delay: 0.3s;"></div>
+    <div class="absolute w-1 h-1 bg-[#ffbe1a] pixel-star top-[38%] left-[75%]" style="animation-delay: 1s;"></div>
+    <div class="absolute w-2 h-2 bg-white pixel-star top-[47%] left-[88%]" style="animation-delay: 0.5s;"></div>
+    <div class="absolute w-1.5 h-1.5 bg-white pixel-star top-[5%] left-[55%]" style="animation-delay: 1.3s;"></div>
+  </div>
+
+  <header class="w-full flex justify-between items-start z-30 mt-2 md:mt-4 px-2 md:px-12">
+    <button id="sound-toggle" class="bg-[#1e2030] hover:bg-[#282b40] border-2 border-[#ffbe1a] active:translate-y-0.5 p-2 flex items-center justify-center shadow-[3px_3px_0_0_rgba(0,0,0,0.6)]">
+      <span id="sound-icon" class="text-base">🔇</span>
+    </button>
+    
+    <div class="text-center md:text-right">
+      <h1 class="pixel-font text-brand-zard text-lg md:text-xl tracking-widest text-[#ffbe1a] drop-shadow-[0_4px_0_rgba(0,0,0,0.8)] animate-pulse">
+        ADLERZ
+      </h1>
+      <p class="text-xs text-[#8a8a98] mt-1 md:mt-2 pixel-font text-[8px] drop-shadow-[0_2px_0_rgba(0,0,0,0.8)]">CAMPFIRE SAFE ZONE</p>
+    </div>
+  </header>
+
+  <main id="links-area" dir="ltr" class="w-full max-w-7xl mr-auto ml-0 flex flex-col md:flex-row items-center justify-start gap-4 z-30 my-auto px-4 md:pl-12 md:pr-0 hidden">
+    <div dir="rtl" class="w-full max-w-sm md:max-w-md flex flex-col gap-4 md:gap-6 fade-in-pixel">
+      <div class="w-full flex flex-col gap-3">
+        
+        <a href="https://discord.gg/adlerz" target="_blank" class="group flex items-center justify-between bg-[#1e2030] hover:bg-[#282b40] border-b-4 border-[#11121b] active:border-b-0 active:translate-y-1 p-3 transition-all shadow-[4px_4px_0_0_rgba(0,0,0,0.6)]">
+          <span class="flex items-center gap-3">
+            <span class="text-sm">👾</span>
+            <span class="text-xs font-bold">اتاق دیسکورد من</span>
+          </span>
+          <span class="pixel-font text-[8px] text-[#ffbe1a] group-hover:-translate-x-1 transition-transform">-></span>
+        </a>
+
+        <a href="https://github.com/adlerzY" target="_blank" class="group flex items-center justify-between bg-[#1e2030] hover:bg-[#282b40] border-b-4 border-[#11121b] active:border-b-0 active:translate-y-1 p-3 transition-all shadow-[4px_4px_0_0_rgba(0,0,0,0.6)]">
+          <span class="flex items-center gap-3">
+            <span class="text-sm">💻</span>
+            <span class="text-xs font-bold">گیت‌هاب کدهای جادویی</span>
+          </span>
+          <span class="pixel-font text-[8px] text-[#ffbe1a] group-hover:-translate-x-1 transition-transform">-></span>
+        </a>
+
+      </div>
+    </div>
+    <div class="hidden md:block w-1/2"></div>
+  </main>
+
+  <div dir="ltr" class="relative md:absolute md:bottom-[8%] md:right-[2%] lg:right-[4%] xl:right-[8%] z-20 flex flex-col md:flex-row items-center gap-5 md:gap-8 mt-2 md:mt-0 max-w-sm md:max-w-none mx-auto md:mx-0 pb-4 md:pb-0">
+    
+    <div class="w-full md:w-80 px-2 md:px-0">
+      
+      <div id="pc-box" dir="rtl" class="hidden xl:flex flex-col bg-[#0d0e15]/95 border-4 border-[#ffbe1a] p-5 text-center relative shadow-[8px_8px_0px_0px_rgba(0,0,0,0.8)]">
+        <div class="absolute top-1/2 -translate-y-1/2 -right-[12px] w-4 h-4 bg-[#0d0e15] border-t-4 border-r-4 border-[#ffbe1a] rotate-45"></div>
+        <p id="pc-text" class="text-sm leading-7 text-[#e0e0e6] font-bold typing">
+          مسافر خسته، کنار آتش من بنشین... 🔥<br>
+          من <span class="text-[#ffbe1a]">ادرز</span> هستم. توسعه‌دهنده وب، گیمر و جادوگر دنیای کدها.
+        </p>
+        
+        <div id="pc-choices" class="hidden mt-4 pt-3 border-t-2 border-[#ffbe1a]/30 flex flex-col gap-2 items-center">
+          <p class="text-[10px] text-[#8a8a98] font-bold">میخوای یه چیز جالب ببینی؟</p>
+          <div class="flex gap-10 justify-center text-xs font-bold mt-1">
+            <span data-choice="yes" class="cursor-pointer transition-all duration-150 py-0.5 px-2">YES</span>
+            <span data-choice="no" class="cursor-pointer transition-all duration-150 py-0.5 px-2">NO</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="mobile-box" dir="rtl" class="flex xl:hidden flex-col bg-[#150d0d]/95 border-4 border-red-600 p-4 text-center relative shadow-[6px_6px_0px_0px_rgba(0,0,0,0.8)]">
+        <div class="block md:hidden absolute left-1/2 -translate-x-1/2 -bottom-[12px] w-4 h-4 bg-[#150d0d] border-b-4 border-r-4 border-red-600 rotate-45"></div>
+        <div class="hidden md:block absolute top-1/2 -translate-y-1/2 -right-[12px] w-4 h-4 bg-[#150d0d] border-t-4 border-r-4 border-red-600 rotate-45"></div>
+
+        <div class="flex flex-col items-center gap-2">
+          <span id="mobile-emoji" class="text-2xl animate-bounce">❗️</span>
+          <p id="mobile-text" class="text-sm leading-6 text-[#ff8080] font-bold typing-red">
+            عه عه!!! چرا داری منو به زمین میکشی مسافر!!!!
+          </p>
+        </div>
+
+        <div id="mobile-choices" class="hidden mt-3 pt-3 border-t-2 border-red-600/30 flex flex-col gap-2 items-center">
+          <p id="mobile-choices-title" class="text-[10px] text-[#ff8080]/70 font-bold">دوست داری منو بیشتر بشناسی؟</p>
+          <div class="flex gap-10 justify-center text-xs font-bold mt-1">
+            <span data-choice="yes" class="cursor-pointer transition-all duration-150 py-0.5 px-2">YES</span>
+            <span data-choice="no" class="cursor-pointer transition-all duration-150 py-0.5 px-2">NO</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="relative flex flex-col items-center -translate-y-1 md:-translate-y-6">
+      <div class="absolute w-36 h-36 md:w-44 md:h-44 rounded-full bg-amber-600/10 blur-2xl -bottom-4 left-1/2 -translate-x-1/2 z-0"></div>
+      
+      <img src="knight.gif" alt="Sitting Knight" class="w-36 h-36 md:w-56 md:h-56 pixelated object-contain drop-shadow-[0_10px_12px_rgba(0,0,0,0.9)] relative z-10 flip-knight" />
+      
+      <div id="fire-container" class="hidden md:block absolute bottom-1 -left-[16px] md:-left-[24px] w-14 h-14 md:w-20 md:h-20 z-20 transition-transform duration-150 active:scale-95">
+        <img src="fire.gif" alt="Campfire" class="w-full h-full pixelated object-contain relative z-20" />
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="w-full text-center z-30 pb-2 mt-2 md:text-left md:pl-12">
+    <a href="https://github.com/adlerzY" target="_blank" class="pixel-font text-[7px] text-[#5c5d70] hover:text-[#ffbe1a] transition-colors duration-150 drop-shadow-[0_1px_0_rgba(0,0,0,0.8)] inline-block">
+      © 2026 ADLERZ // بخدا حوصلم سر رفت اینو ساختمش
+    </a>
+  </footer>
+
+</body>
+</html>
