@@ -98,21 +98,21 @@
     <div class="absolute w-1.5 h-1.5 bg-white pixel-star top-[5%] left-[55%]" style="animation-delay: 1.3s;"></div>
   </div>
 
-  <header class="w-full flex flex-col sm:flex-row justify-between items-center sm:items-start gap-4 z-30 mt-2 md:mt-4 px-2 md:px-12">
-    <div class="flex sm:flex-col items-center sm:items-end gap-4 order-2 sm:order-3 w-full sm:w-auto justify-between sm:justify-start">
-      <div class="flex items-center gap-3">
-        <button id="sound-toggle" class="bg-[#1e2030] hover:bg-[#282b40] border-4 border-[#ffbe1a] active:translate-y-0.5 p-3.5 flex items-center justify-center shadow-[4px_4px_0_0_rgba(0,0,0,0.6)]">
-          <span id="sound-icon" class="text-2xl">🔇</span>
+  <header class="w-full flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 md:gap-4 z-30 mt-2 md:mt-4 px-2 md:px-12">
+    <div class="flex sm:flex-col items-center sm:items-end gap-2 md:gap-4 order-2 sm:order-3 w-full sm:w-auto justify-between sm:justify-start">
+      <div class="flex items-center gap-2 md:gap-3">
+        <button id="sound-toggle" class="bg-[#1e2030] hover:bg-[#282b40] border-4 border-[#ffbe1a] active:translate-y-0.5 p-2 md:p-3.5 flex items-center justify-center shadow-[4px_4px_0_0_rgba(0,0,0,0.6)]">
+          <span id="sound-icon" class="text-xl md:text-2xl">🔇</span>
         </button>
-        <button id="bag-toggle" class="bg-[#1e2030] hover:bg-[#282b40] border-4 border-[#ffbe1a] active:translate-y-0.5 p-3.5 flex items-center justify-center shadow-[4px_4px_0_0_rgba(0,0,0,0.6)] relative">
-          <span class="text-2xl">🎒</span>
+        <button id="bag-toggle" class="bg-[#1e2030] hover:bg-[#282b40] border-4 border-[#ffbe1a] active:translate-y-0.5 p-2 md:p-3.5 flex items-center justify-center shadow-[4px_4px_0_0_rgba(0,0,0,0.6)] relative">
+          <span class="text-xl md:text-2xl">🎒</span>
           <span id="inv-count" class="absolute -bottom-1.5 -right-1.5 bg-red-600 text-white text-[10px] pixel-font px-1.5 py-0.5 font-bold rounded border border-white hidden">0</span>
         </button>
       </div>
       
-      <div id="quest-container" class="bg-[#0d0e15]/95 border-4 border-[#ffbe1a] p-3.5 w-full sm:max-w-[260px] shadow-[4px_4px_0_0_rgba(0,0,0,0.6)] text-right">
-        <p class="text-[11px] font-bold text-[#ffbe1a] border-b-2 border-[#ffbe1a]/30 pb-1.5 mb-1.5 tracking-wider pixel-font">CURRENT QUEST</p>
-        <p id="quest-text" class="text-sm leading-6 font-bold text-gray-100">در حال بارگذاری...</p>
+      <div id="quest-container" class="bg-[#0d0e15]/95 border-4 border-[#ffbe1a] p-2 md:p-3.5 w-full sm:max-w-[260px] shadow-[4px_4px_0_0_rgba(0,0,0,0.6)] text-right">
+        <p class="text-[9px] md:text-[11px] font-bold text-[#ffbe1a] border-b-2 border-[#ffbe1a]/30 pb-1 mb-1 md:pb-1.5 md:mb-1.5 tracking-wider pixel-font">CURRENT QUEST</p>
+        <p id="quest-text" class="text-xs md:text-sm leading-5 md:leading-6 font-bold text-gray-100">در حال بارگذاری...</p>
       </div>
     </div>
 
@@ -224,7 +224,7 @@
     <div class="relative flex flex-col items-center -translate-y-1 md:-translate-y-6">
       <div class="absolute w-36 h-36 md:w-44 md:h-44 rounded-full bg-amber-600/10 blur-2xl -bottom-4 left-1/2 -translate-x-1/2 z-0"></div>
       <img src="knight.gif" alt="Sitting Knight" class="w-36 h-36 md:w-56 md:h-56 pixelated object-contain drop-shadow-[0_10px_12px_rgba(0,0,0,0.9)] relative z-10 flip-knight" />
-      <div id="fire-container" class="hidden md:block absolute bottom-1 -left-[16px] md:-left-[24px] w-14 h-14 md:w-20 md:h-20 z-20 transition-transform duration-150 active:scale-95">
+      <div id="fire-container" class="block absolute bottom-1 -left-[36px] md:-left-[24px] w-14 h-14 md:w-20 md:h-20 z-20 transition-transform duration-150 active:scale-95">
         <img src="fire.gif" alt="Campfire" class="w-full h-full pixelated object-contain relative z-20" />
       </div>
     </div>

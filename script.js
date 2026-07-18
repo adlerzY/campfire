@@ -222,7 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let emberTimer = null;
 
   function createEmber() {
-    if (window.innerWidth < 768 || !fireContainer) return;
+    if (!fireContainer) return;
     const ember = document.createElement('div');
     ember.className = 'pixel-ember';
     const randomLeft = Math.floor(Math.random() * 40) + 20;
@@ -252,7 +252,6 @@ document.addEventListener("DOMContentLoaded", () => {
       startEmberSpawning();
       for(let i=0; i<15; i++) { setTimeout(createEmber, i * 30); }
       
-      // اگر تایپ دیالوگ دیگری در جریان است، دیالوگ جدیدی برای آتش باز نشود
       if (selectionLocked && !isTypingActive && !isTypingInProgress) {
         showFloatingBubble("هومم... گرم‌تر شد.", false);
         if (Math.random() > 0.5) {
@@ -378,7 +377,6 @@ document.addEventListener("DOMContentLoaded", () => {
       void cokiImg.offsetWidth;
       cokiImg.classList.add('hit-shake-coki');
       
-      // اگر در حال حاضر متنی در حال تایپ است، کلیک جدید نادیده گرفته می‌شود
       if (isTypingInProgress) return;
       
       isTypingActive = true;
@@ -408,7 +406,6 @@ document.addEventListener("DOMContentLoaded", () => {
         showFloatingBubble("...مگه چشم نداری", false);
       } 
       else if (selectionLocked) {
-        // جلوگیری از ایجاد باگ در صورت اسپم کلیک روی شوالیه
         if (isTypingInProgress) return;
 
         if (Math.random() < 0.4) {
