@@ -62,12 +62,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const questText = document.getElementById('quest-text');
 
+  const youDiedScreen = document.getElementById('you-died-screen');
+  const youDiedTitle = document.getElementById('you-died-title');
+  const retryBtn = document.getElementById('retry-btn');
+
   const isRealMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   let isAudioPlaying = false;
 
   let inventory = [];
   let currentQuest = null;
-  let knightClickCount = 0;
 
   const questPool = [
     { id: 'click_knight', target: 'knight', required: 5, current: 0, desc: "روی شوالیه ۵ بار کلیک کن", reward: "قهوه پیکسلی" },
@@ -75,9 +78,38 @@ document.addEventListener("DOMContentLoaded", () => {
     { id: 'click_coki', target: 'coki', required: 3, current: 0, desc: "روی کوکی ۳ بار کلیک کن", reward: "استخوان طلایی" }
   ];
 
+  function saveGameState() {
+    const gameState = {
+      inventory: inventory,
+      currentQuest: currentQuest
+    };
+    localStorage.setItem('adlerz_game_state', JSON.stringify(gameState));
+  }
+
+  function loadGameState() {
+    const saved = localStorage.getItem('adlerz_game_state');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        inventory = parsed.inventory || [];
+        currentQuest = parsed.currentQuest || null;
+      } catch (e) {
+        inventory = [];
+        currentQuest = null;
+      }
+    }
+    if (!currentQuest) {
+      initRandomQuest();
+    } else {
+      updateQuestUI();
+    }
+    updateInventoryUI();
+  }
+
   function initRandomQuest() {
     const r = Math.floor(Math.random() * questPool.length);
     currentQuest = JSON.parse(JSON.stringify(questPool[r]));
+    saveGameState();
     updateQuestUI();
   }
 
@@ -92,11 +124,17 @@ document.addEventListener("DOMContentLoaded", () => {
   function progressQuest(targetType) {
     if (!currentQuest || currentQuest.target !== targetType) return;
     currentQuest.current++;
+    saveGameState();
     updateQuestUI();
+    
     if (currentQuest.current >= currentQuest.required) {
-      inventory.push(currentQuest.reward);
-      updateInventoryUI();
-      showFloatingBubble(`کوست کامل شد! ${currentQuest.reward} دریافت کردی.`, false);
+      if (inventory.length >= 8) {
+        showFloatingBubble("کیفت پر شده! جایی برای آیتم جدید نداری.", true);
+      } else {
+        inventory.push(currentQuest.reward);
+        updateInventoryUI();
+        showFloatingBubble(`کوست کامل شد! ${currentQuest.reward} دریافت کردی.`, false);
+      }
       initRandomQuest();
     }
   }
@@ -133,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   donateClose.addEventListener('click', () => {
-    donateModal.classList.add('hidden');
+    donateModal.classList.remove('hidden');
     buttonsWrapper.classList.remove('hidden');
   });
 
@@ -198,14 +236,14 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   const oracleMessages = [
-    "فراموش نکن مسافر، حتی تاریک‌ترین شب‌ها هم با طلوع خورشید تموم میشن. 🌅",
+    "فراموش نکن مسافر، حتی تاریک‌ترین شب‌ها هم با طلوع خورشید تموم میشن. ",
     "دنیا پر از کدهای باگه، ولی زندگی ارزش دیباگ کردن رو داره.",
-    "گاهی اوقات بهترین کار اینه که شمشیرت رو زمین بذاری و فقط استراحت کنی. 🛡️",
+    "گاهی اوقات بهترین کار اینه که شمشیرت رو زمین بذاری و فقط استراحت کنی. ",
     "به نظر خسته میای. می‌خوای یه فنجون قهوه پیکسلی برات بریزم؟ ☕",
     "بزرگ‌ترین جادو، کدهاییه که با عشق می‌نویسی.",
     "... سرت رو بالا بگیر مسافر",
     "پیشنهاد می‌کنم گیت‌هاب من رو چک کنی، کدهای جادویی اونجا پنهان شده!",
-    "اینجا امن‌ترین نقطه اینترنت برای توئه. هر چقدر دوست داری بمون. 🔥",
+    "اینجا امن‌ترین نقطه اینترنت برای توئه. هر چقدر دوست داری بمون. ",
     "زندگی مثل یه بازی آرپی‌جیه، لول‌آپ کردن زمان می‌بره، ناامید نشو."
   ];
 
@@ -290,33 +328,42 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function triggerYouDiedScreen() {
+    youDiedScreen.classList.remove('opacity-0', 'pointer-events-none');
+    youDiedScreen.classList.add('opacity-100');
+    youDiedTitle.classList.add('animate-you-died');
+
+    setTimeout(() => {
+      retryBtn.classList.remove('hidden');
+      retryBtn.classList.add('fade-in-pixel');
+    }, 2000);
+  }
+
+  if (retryBtn) {
+    retryBtn.addEventListener('click', () => {
+      location.reload();
+    });
+  }
+
   function confirmSelection() {
     if (selectionLocked) return;
     selectionLocked = true;
     activeChoicesContainer.classList.add('hidden');
 
-    let resultText = "";
     if (selectedOption === 'yes') {
       linksArea.classList.remove('hidden');
-      if (isLargeScreen || isRealMobile) {
-        resultText = "انتخاب هوشمندانه‌ای بود مسافر... راستی، اگه مایل بودی می‌تونی از دکمه جدید منو مهمون کنی! ☕";
-      } else {
-        resultText = "دس خوش مسافر! دکمه مهمون کردن هم باز شد، صفا دادی.";
+      let resultText = (isLargeScreen || isRealMobile) 
+        ? "انتخاب هوشمندانه‌ای بود مسافر... راستی، اگه مایل بودی می‌تونی از دکمه جدید منو مهمون کنی! ☕" 
+        : "دس خوش مسافر! دکمه مهمون کردن هم باز شد، صفا دادی.";
+      if (isRealMobile) {
+        activeText.classList.remove('typing-red');
+        activeText.classList.add('typing');
       }
+      typeEffect(activeText, resultText, 35);
     } else {
       linksArea.classList.add('hidden');
-      if (isLargeScreen || isRealMobile) {
-        resultText = "پس توهم میری...میموندی باه... اهم سفر سلامت.";
-      } else {
-        resultText = "نهههه!!! چطوری دلت اومد به یه شوالیه نه بگی؟!!!";
-      }
+      triggerYouDiedScreen();
     }
-
-    if (isRealMobile) {
-      activeText.classList.remove('typing-red');
-      activeText.classList.add('typing');
-    }
-    typeEffect(activeText, resultText, 35);
   }
 
   function enableSelectionControls() {
@@ -446,6 +493,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  initRandomQuest();
-  updateInventoryUI();
+  loadGameState();
 });

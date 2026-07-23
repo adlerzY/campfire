@@ -78,11 +78,24 @@
       50% { transform: translateY(-35px) translateX(var(--ember-drift)) scale(1.2); opacity: 0.9; }
       100% { transform: translateY(-90px) translateX(calc(var(--ember-drift) * 2)) scale(0.4); opacity: 0; }
     }
+    @keyframes youDiedText {
+      0% { transform: scale(0.7); opacity: 0; letter-spacing: 2px; }
+      100% { transform: scale(1); opacity: 1; letter-spacing: 8px; }
+    }
+    .animate-you-died {
+      animation: youDiedText 2.5s cubic-bezier(0.1, 0.7, 0.1, 1) forwards;
+    }
   </style>
 </head>
 <body class="bg-[#05060b] text-[#e0e0e6] h-[100dvh] md:h-screen flex flex-col justify-between p-4 md:p-6 relative overflow-hidden select-none">
 
   <audio id="bg-audio" loop src="campfire_music.mp3"></audio>
+
+  <div id="you-died-screen" class="fixed inset-0 bg-black/95 opacity-0 pointer-events-none z-50 flex flex-col items-center justify-center transition-opacity duration-1000">
+    <h2 id="you-died-title" class="text-red-700 font-bold text-3xl md:text-6xl pixel-font drop-shadow-[0_0_15px_rgba(200,0,0,0.9)] text-center px-4">YOU FAILED</h2>
+    <p class="text-gray-500 text-xs md:text-sm mt-4 font-bold pixel-font">YOUR JOURNEY ENDS HERE...</p>
+    <button id="retry-btn" class="mt-10 text-xs text-red-500 border-2 border-red-800 bg-red-950/30 px-6 py-3 hover:border-red-500 hover:bg-red-900/50 hover:text-white transition-all pixel-font hidden shadow-[0_0_10px_rgba(255,0,0,0.3)]">TRY AGAIN?</button>
+  </div>
 
   <div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
     <div class="absolute inset-0 bg-cover bg-center pixelated opacity-80" style="background-image: url('dark-fantasy-ruins-night-landscape-vector-pixel-art-illustration_148553-1750.avif');"></div>
@@ -161,11 +174,11 @@
       <h3 class="text-sm font-bold text-[#ffbe1a] mb-4 pixel-font">DONATE MENU</h3>
       <p class="text-xs leading-6 mb-6 font-bold">ممنون که از من حمایت می‌کنی مسافر! می‌تونی آیتم مورد نظرت رو برای مهمون کردن انتخاب کنی:</p>
       <div class="grid grid-cols-2 gap-3 mb-2">
-        <a href="https://dony.ir/link1" target="_blank" class="flex flex-col items-center bg-[#1e2030] border-2 border-gray-700 hover:border-[#ffbe1a] p-2 transition-all">
+        <a href="https://daramet.com/adlerz" target="_blank" class="flex flex-col items-center bg-[#1e2030] border-2 border-gray-700 hover:border-[#ffbe1a] p-2 transition-all">
           <span class="text-2xl">☕</span>
           <span class="text-[10px] mt-1 font-bold">یک فنجان قهوه</span>
         </a>
-        <a href="https://dony.ir/link2" target="_blank" class="flex flex-col items-center bg-[#1e2030] border-2 border-gray-700 hover:border-[#ffbe1a] p-2 transition-all">
+        <a href="https://daramet.com/adlerz" target="_blank" class="flex flex-col items-center bg-[#1e2030] border-2 border-gray-700 hover:border-[#ffbe1a] p-2 transition-all">
           <span class="text-2xl">🍕</span>
           <span class="text-[10px] mt-1 font-bold">یک قاچ پیتزا</span>
         </a>
@@ -232,7 +245,7 @@
 
   <footer class="w-full text-center z-30 pb-2 mt-2 md:text-left md:pl-12">
     <a href="https://github.com/adlerzY" target="_blank" class="pixel-font text-[7px] text-[#5c5d70] hover:text-[#ffbe1a] transition-colors duration-150 drop-shadow-[0_1px_0_rgba(0,0,0,0.8)] inline-block">
-      © 2026 ADLERZ // Power with sar raftan hosele
+      © 2026 ADLERZ // Forged in boredom
     </a>
   </footer>
 
